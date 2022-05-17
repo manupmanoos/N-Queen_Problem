@@ -1,0 +1,103 @@
+<html>
+
+<head>
+<meta charset="UTF-8"> 
+<title>Chessboard using Pure CSS and HTML</title>
+
+<script src="{{ url_for('static', filename='chessboardscript.js') }}"></script>
+<style type="text/css">
+    
+.algostyle {
+    margin-top: 10%;
+    margin-left: 15%;
+}
+
+.black {
+    float: left;
+    width: 64px;
+    height: 64px;
+    background-color: #999;
+      font-size:50px;
+    text-align:center;
+    display: table-cell;
+    vertical-align:middle;
+}
+.white {
+    float: left;
+    width: 64px;
+    height: 64px;
+    background-color: #fff;
+    font-size:50px;
+    text-align:center;
+    display: table-cell;
+    vertical-align:middle;
+}
+
+</style>
+
+</head>
+
+<body>
+
+    <form class = "algostyle" action="/algos" method="POST">
+    <label for="algos" style="font-size: 20px">Choose an algorithm</label>
+    <br></br>     
+        <select name="algos" id="algos" >
+        <option value="1"  >Backtracking</option>
+        <option value="2">Hill Climbing</option>
+        <option value="3">Genetic Algorithm</option>
+        </select>
+        <br></br>
+        <br></br>
+        
+        <label for="board_size" style="font-size: 20px">Enter the Number of Queens</label>
+        <br></br>
+        <input type="number" value="8" id = "board_size" name ="board_size" />
+        <br></br>
+        <br></br>
+        
+        <p><input type="submit" value="Generate Solution" style="height:30px; width:130px; font-size: 14px"/></p>
+    </form>
+
+<div id = "board" >
+{% if size%2 != 0 %}
+    {%- for line in range(1,size*size) %}
+        {% if line%2 !=0 %}
+            {% if line in new_positions %}
+                <div class="white">&#9819;</div>
+            {% else %}
+                <div class="white"></div>
+            {% endif %}
+        {% else %}
+            {% if line in new_positions %}
+                <div class="black">&#9819;</div>
+            {% else %}
+                <div class="black"></div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% else %}
+    {%- for line in range(1,size*size) %}
+        {% if ((line%2)+ ((line-1)//size))%2 !=0 %}
+            {% if line in new_positions %}
+                <div class="white">&#9819;</div>
+            {% else %}
+                <div class="white"></div>
+            {% endif %}
+        {% else %}
+            {% if line in new_positions %}
+                <div class="black">&#9819;</div>
+            {% else %}
+                <div class="black"></div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+
+<input type="hidden" id="size" value="{{size}}">
+<input type="hidden" id="algo_temp" value="{{algo_temp}}">
+</div>
+</body>
+</html>
